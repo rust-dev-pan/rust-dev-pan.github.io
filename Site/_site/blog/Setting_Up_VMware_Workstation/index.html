@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛠️ Setting Up VMware Workstation on Ubuntu 22.04</title>
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    
+    <!-- Clipboard.js for copy button -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Copy-code.js for copy code block in one click-->
+    <script src="/assets/js/copy-code.js"></script>
+    
+
+</head>
+<body>
+    <header>
+        <h1>🦀Rustacean Himangshu! </h1>
+        
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/blogs">Blog</a></li>
+            </ul>
+        </nav>
+        <div class="social-icons"> 
+            <a href="mailto:rust.dev.pan@gmail.com" target="_blank" title="Email">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+            </a>
+            <a href="https://github.com/rust-dev-pan" target="_blank" title="GitHub">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+            </a>
+            <a href="https://www.linkedin.com/in/himangshu-blockchain/" target="_blank" title="LinkedIn">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
+            </a>
+        </div>
+        <div class="menu-toggle">☰</div>
+    </header>
+    <main>
+        <p class="post-meta">
+  <span class="date"
+    >📅 <strong>Published on:</strong> June 25, 2025</span
+  >
+  <span class="author">✍️ <strong>Author:</strong> Himangshu Pan</span>
+</p>
+
+<p><h1 id="️-setting-up-vmware-workstation-on-ubuntu-2204">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</h1>
+
+<blockquote>
+  <p><em>“If I had 30 minutes to cut down a tree, I’d spend the first 20 sharpening my axe.”</em> — Abraham Lincoln</p>
+</blockquote>
+
+<p>This quote perfectly captures the mindset needed in the field of information security. The more you practice, the less time it takes to solve a challenge or crack a machine. Preparation is everything.</p>
+
+<p>To ethically practice hacking and security skills, it’s crucial to set up your own local lab environment. Virtualization software enables us to run multiple isolated systems safely on a single host machine. Among the most popular options are <strong>VirtualBox</strong> and <strong>VMware</strong>.</p>
+
+<p>As a developer using a Debian-based <strong>Ubuntu</strong> machine, I’ll walk you through how I set up <strong>VMware Workstation</strong> to create a secure and legal hacking lab on <strong>Ubuntu 22.04</strong>. (This method should also work for other Ubuntu versions with minor adjustments.)</p>
+
+<hr />
+
+<h2 id="-step-1-update-your-system">🔧 Step 1: Update Your System</h2>
+
+<p>Before starting, ensure your system is up-to-date:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade <span class="nt">-y</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-step-2-download-the-vmware-workstation-installer">📥 Step 2: Download the VMware Workstation Installer</h2>
+
+<p>We’ll be using <strong>VMware Workstation 17.5.0</strong> in this guide:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/Downloads
+wget https://ia801608.us.archive.org/12/items/vmware-workstation-full-17.5.0-22583795.x-86-64-by-vmware.bundle/VMware-Workstation-Full-17.5.0-22583795.x86_64.bundle
+<span class="nb">chmod</span> +x VMware-Workstation-Full-17.5.0-22583795.x86_64.bundle
+<span class="nb">sudo</span> ./VMware-Workstation-Full-17.5.0-22583795.x86_64.bundle
+</code></pre></div></div>
+
+<ul>
+  <li>The installer is downloaded into the <code class="language-plaintext highlighter-rouge">Downloads</code> directory.</li>
+  <li>We make the <code class="language-plaintext highlighter-rouge">.bundle</code> file executable.</li>
+  <li>Then run it with <code class="language-plaintext highlighter-rouge">sudo</code> to begin installation.</li>
+</ul>
+
+<p>After installation, <strong>VMware Player</strong> and other components should be available.</p>
+
+<hr />
+
+<h2 id="️-step-3-fixing-kernel-module-errors">⚠️ Step 3: Fixing Kernel Module Errors</h2>
+
+<p>When running <code class="language-plaintext highlighter-rouge">vmplayer</code> for the first time, you may encounter errors related to missing kernel modules like <code class="language-plaintext highlighter-rouge">vmmon</code> or <code class="language-plaintext highlighter-rouge">vmnet</code>. These are required for VMware to work properly with the Linux kernel.</p>
+
+<hr />
+
+<h2 id="️-step-4-install-required-tools--patch-modules">🛠️ Step 4: Install Required Tools &amp; Patch Modules</h2>
+
+<p>Install the necessary packages and build the missing modules using the community-maintained <code class="language-plaintext highlighter-rouge">vmware-host-modules</code> repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>build-essential linux-headers-<span class="si">$(</span><span class="nb">uname</span> <span class="nt">-r</span><span class="si">)</span>
+<span class="nb">sudo </span>vmware-modconfig <span class="nt">--console</span> <span class="nt">--install-all</span>
+
+git clone https://github.com/mkubecek/vmware-host-modules.git
+<span class="nb">cd </span>vmware-host-modules
+git checkout workstation-17.5.0
+make
+<span class="nb">sudo </span>make <span class="nb">install
+sudo </span>systemctl restart vmware
+</code></pre></div></div>
+
+<ul>
+  <li>This installs build tools and kernel headers.</li>
+  <li>Rebuilds the required modules for VMware Workstation 17.5.0.</li>
+  <li>Finally, restarts the VMware service.</li>
+</ul>
+
+<hr />
+
+<h2 id="-youre-ready">✅ You’re Ready!</h2>
+
+<p>With this setup, you’re now ready to start building and experimenting with your own ethical hacking lab—right from your Ubuntu machine!</p>
+
+<p>Feel free to fork or update this guide for newer versions or other distributions.</p>
+
+<hr />
+
+<p><strong>Happy hacking!</strong> 🐧💻🕵️‍♂️</p>
+</p>
+</br>
+</br>
+<p ><a href="/blogs">Blogs →</a><br /></p>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 Himangshu Pan. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const nav = document.querySelector("nav");
+    
+            // Toggle nav when clicking the menu button
+            menuToggle.addEventListener("click", function (e) {
+                e.stopPropagation(); // Prevent event from bubbling to document
+                nav.classList.toggle("nav-active");
+            });
+    
+            // Prevent click inside nav from closing it
+            nav.addEventListener("click", function (e) {
+                e.stopPropagation();
+            });
+    
+            // Click anywhere else to close nav
+            document.addEventListener("click", function () {
+                nav.classList.remove("nav-active");
+            });
+        });
+    </script>
+    
+</body>
+</html>

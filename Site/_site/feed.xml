@@ -1,4 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-05-09T13:18:36+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Himangshu Pan</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><author><name>Himangshu Pan</name></author><entry><title type="html">🦀Rustacean Himangshu! | Code Blocks in Different Languages</title><link href="http://localhost:4000/blog/code_blocks/" rel="alternate" type="text/html" title="🦀Rustacean Himangshu! | Code Blocks in Different Languages" /><published>2025-04-29T00:00:00+05:30</published><updated>2025-04-29T00:00:00+05:30</updated><id>http://localhost:4000/blog/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/code_blocks/"><![CDATA[<h1 id="code-blocks-in-different-languages">Code Blocks in Different Languages</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-06-25T01:09:09+05:30</updated><id>/feed.xml</id><title type="html">Himangshu Pan</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><author><name>Himangshu Pan</name></author><entry><title type="html">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</title><link href="/blog/Setting_Up_VMware_Workstation/" rel="alternate" type="text/html" title="🛠️ Setting Up VMware Workstation on Ubuntu 22.04" /><published>2025-06-25T00:00:00+05:30</published><updated>2025-06-25T00:00:00+05:30</updated><id>/blog/Setting_Up_VMware_Workstation</id><content type="html" xml:base="/blog/Setting_Up_VMware_Workstation/"><![CDATA[<h1 id="️-setting-up-vmware-workstation-on-ubuntu-2204">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</h1>
+
+<blockquote>
+  <p><em>“If I had 30 minutes to cut down a tree, I’d spend the first 20 sharpening my axe.”</em> — Abraham Lincoln</p>
+</blockquote>
+
+<p>This quote perfectly captures the mindset needed in the field of information security. The more you practice, the less time it takes to solve a challenge or crack a machine. Preparation is everything.</p>
+
+<p>To ethically practice hacking and security skills, it’s crucial to set up your own local lab environment. Virtualization software enables us to run multiple isolated systems safely on a single host machine. Among the most popular options are <strong>VirtualBox</strong> and <strong>VMware</strong>.</p>
+
+<p>As a developer using a Debian-based <strong>Ubuntu</strong> machine, I’ll walk you through how I set up <strong>VMware Workstation</strong> to create a secure and legal hacking lab on <strong>Ubuntu 22.04</strong>. (This method should also work for other Ubuntu versions with minor adjustments.)</p>
+
+<hr />
+
+<h2 id="-step-1-update-your-system">🔧 Step 1: Update Your System</h2>
+
+<p>Before starting, ensure your system is up-to-date:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade <span class="nt">-y</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-step-2-download-the-vmware-workstation-installer">📥 Step 2: Download the VMware Workstation Installer</h2>
+
+<p>We’ll be using <strong>VMware Workstation 17.5.0</strong> in this guide:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/Downloads
+wget https://ia801608.us.archive.org/12/items/vmware-workstation-full-17.5.0-22583795.x-86-64-by-vmware.bundle/VMware-Workstation-Full-17.5.0-22583795.x86_64.bundle
+<span class="nb">chmod</span> +x VMware-Workstation-Full-17.5.0-22583795.x86_64.bundle
+<span class="nb">sudo</span> ./VMware-Workstation-Full-17.5.0-22583795.x86_64.bundle
+</code></pre></div></div>
+
+<ul>
+  <li>The installer is downloaded into the <code class="language-plaintext highlighter-rouge">Downloads</code> directory.</li>
+  <li>We make the <code class="language-plaintext highlighter-rouge">.bundle</code> file executable.</li>
+  <li>Then run it with <code class="language-plaintext highlighter-rouge">sudo</code> to begin installation.</li>
+</ul>
+
+<p>After installation, <strong>VMware Player</strong> and other components should be available.</p>
+
+<hr />
+
+<h2 id="️-step-3-fixing-kernel-module-errors">⚠️ Step 3: Fixing Kernel Module Errors</h2>
+
+<p>When running <code class="language-plaintext highlighter-rouge">vmplayer</code> for the first time, you may encounter errors related to missing kernel modules like <code class="language-plaintext highlighter-rouge">vmmon</code> or <code class="language-plaintext highlighter-rouge">vmnet</code>. These are required for VMware to work properly with the Linux kernel.</p>
+
+<hr />
+
+<h2 id="️-step-4-install-required-tools--patch-modules">🛠️ Step 4: Install Required Tools &amp; Patch Modules</h2>
+
+<p>Install the necessary packages and build the missing modules using the community-maintained <code class="language-plaintext highlighter-rouge">vmware-host-modules</code> repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>build-essential linux-headers-<span class="si">$(</span><span class="nb">uname</span> <span class="nt">-r</span><span class="si">)</span>
+<span class="nb">sudo </span>vmware-modconfig <span class="nt">--console</span> <span class="nt">--install-all</span>
+
+git clone https://github.com/mkubecek/vmware-host-modules.git
+<span class="nb">cd </span>vmware-host-modules
+git checkout workstation-17.5.0
+make
+<span class="nb">sudo </span>make <span class="nb">install
+sudo </span>systemctl restart vmware
+</code></pre></div></div>
+
+<ul>
+  <li>This installs build tools and kernel headers.</li>
+  <li>Rebuilds the required modules for VMware Workstation 17.5.0.</li>
+  <li>Finally, restarts the VMware service.</li>
+</ul>
+
+<hr />
+
+<h2 id="-youre-ready">✅ You’re Ready!</h2>
+
+<p>With this setup, you’re now ready to start building and experimenting with your own ethical hacking lab—right from your Ubuntu machine!</p>
+
+<p>Feel free to fork or update this guide for newer versions or other distributions.</p>
+
+<hr />
+
+<p><strong>Happy hacking!</strong> 🐧💻🕵️‍♂️</p>]]></content><author><name>Himangshu Pan</name></author><category term="Hacking" /><summary type="html"><![CDATA[🛠️ Setting Up VMware Workstation on Ubuntu 22.04]]></summary></entry><entry><title type="html">🦀Rustacean Himangshu! | Code Blocks in Different Languages</title><link href="/blog/code_blocks/" rel="alternate" type="text/html" title="🦀Rustacean Himangshu! | Code Blocks in Different Languages" /><published>2025-04-29T00:00:00+05:30</published><updated>2025-04-29T00:00:00+05:30</updated><id>/blog/welcome-to-jekyll</id><content type="html" xml:base="/blog/code_blocks/"><![CDATA[<h1 id="code-blocks-in-different-languages">Code Blocks in Different Languages</h1>
 
 <p>This post showcases code snippets in various programming languages.</p>
 
